@@ -1,0 +1,1651 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>安徽大学集成电路工程考研监督系统</title>
+    <style>
+        :root {
+            --dark-red: #5C1024;
+            --red: #9E1B32;
+            --light-red: #C42E4B;
+            --gold: #C5A572;
+            --light-gold: #F5E6D3;
+            --cream: #FDFBF7;
+            --gray: #666666;
+            --light-gray: #E8E8E8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Times New Roman', 'Songti SC', serif;
+            background-color: var(--cream);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--dark-red) 0%, var(--red) 100%);
+            color: var(--gold);
+            padding: 30px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(197, 165, 114, 0.1) 0%, transparent 70%);
+        }
+
+        .crest-container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .crest {
+            display: inline-block;
+            width: 120px;
+            height: 120px;
+            border: 4px solid var(--gold);
+            border-radius: 50%;
+            position: relative;
+            margin-bottom: 20px;
+            background: linear-gradient(145deg, rgba(197, 165, 114, 0.1) 0%, transparent 50%);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3), inset 0 0 30px rgba(197, 165, 114, 0.1);
+        }
+
+        .crest-inner {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            right: 8px;
+            bottom: 8px;
+            border: 2px solid var(--gold);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: rgba(92, 16, 36, 0.5);
+        }
+
+        .crest-text {
+            font-size: 14px;
+            font-weight: bold;
+            line-height: 1.4;
+            text-align: center;
+            letter-spacing: 2px;
+        }
+
+        .crest-year {
+            font-size: 10px;
+            margin-top: 2px;
+            opacity: 0.8;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 5px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.8;
+            position: relative;
+            z-index: 1;
+        }
+
+        .nav {
+            background-color: var(--dark-red);
+            padding: 10px 20px;
+            border-bottom: 2px solid var(--gold);
+        }
+
+        .nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .nav a {
+            color: var(--gold);
+            text-decoration: none;
+            font-size: 16px;
+            padding: 5px 10px;
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+
+        .nav a:hover {
+            color: var(--light-gold);
+            border-bottom-color: var(--gold);
+        }
+
+        .nav a.active {
+            color: var(--light-gold);
+            border-bottom-color: var(--gold);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 25px;
+            margin-bottom: 25px;
+            border-top: 4px solid var(--red);
+        }
+
+        .card-gold {
+            border-top-color: var(--gold);
+        }
+
+        .card-title {
+            font-size: 20px;
+            color: var(--dark-red);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light-gray);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-title::before {
+            content: '';
+            width: 4px;
+            height: 20px;
+            background-color: var(--gold);
+        }
+
+        .countdown-section {
+            text-align: center;
+            background: linear-gradient(135deg, var(--dark-red) 0%, var(--red) 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+
+        .countdown-title {
+            font-size: 18px;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .countdown-item {
+            text-align: center;
+        }
+
+        .countdown-number {
+            font-size: 48px;
+            font-weight: bold;
+            color: var(--gold);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .countdown-label {
+            font-size: 14px;
+            margin-top: 5px;
+            opacity: 0.8;
+        }
+
+        .exam-info {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        .exam-info th, .exam-info td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .exam-info th {
+            background-color: var(--dark-red);
+            color: var(--gold);
+            font-weight: normal;
+        }
+
+        .exam-info tr:hover {
+            background-color: var(--light-gold);
+        }
+
+        .subject-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .subject-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            border-left: 4px solid var(--red);
+            transition: transform 0.3s ease;
+        }
+
+        .subject-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .subject-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .subject-name {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--dark-red);
+        }
+
+        .subject-score {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--gold);
+        }
+
+        .progress-bar {
+            height: 20px;
+            background-color: var(--light-gray);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--red) 0%, var(--light-red) 100%);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            padding-left: 10px;
+            color: white;
+            font-size: 12px;
+        }
+
+        .progress-controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: var(--red);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--dark-red);
+        }
+
+        .btn-gold {
+            background-color: var(--gold);
+            color: var(--dark-red);
+        }
+
+        .btn-gold:hover {
+            background-color: #B59562;
+        }
+
+        .btn-sm {
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+
+        .study-plan {
+            background: linear-gradient(135deg, var(--light-gold) 0%, white 100%);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .plan-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .plan-date {
+            font-size: 16px;
+            color: var(--dark-red);
+            font-weight: bold;
+        }
+
+        .plan-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .plan-item:last-child {
+            border-bottom: none;
+        }
+
+        .plan-checkbox {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--red);
+            cursor: pointer;
+        }
+
+        .plan-text {
+            flex: 1;
+            color: #333;
+        }
+
+        .plan-text.completed {
+            text-decoration: line-through;
+            color: var(--gray);
+        }
+
+        .log-form {
+            margin-bottom: 20px;
+        }
+
+        .log-form textarea {
+            width: 100%;
+            height: 100px;
+            padding: 15px;
+            border: 1px solid var(--light-gray);
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 14px;
+            resize: vertical;
+            margin-bottom: 10px;
+        }
+
+        .log-form textarea:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(197, 165, 114, 0.2);
+        }
+
+        .log-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .log-item {
+            background: var(--light-gold);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--gold);
+        }
+
+        .log-date {
+            font-size: 12px;
+            color: var(--gray);
+            margin-bottom: 5px;
+        }
+
+        .log-content {
+            color: #333;
+            font-size: 14px;
+        }
+
+        .log-actions {
+            margin-top: 10px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .knowledge-list {
+            list-style: none;
+        }
+
+        .knowledge-item {
+            padding: 10px 15px;
+            background: var(--light-gold);
+            border-radius: 5px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .knowledge-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--red);
+        }
+
+        .knowledge-item.completed {
+            background: #E8F5E9;
+        }
+
+        .knowledge-item.completed span {
+            text-decoration: line-through;
+            color: var(--gray);
+        }
+
+        .footer {
+            background-color: var(--dark-red);
+            color: var(--gold);
+            text-align: center;
+            padding: 20px;
+            margin-top: 50px;
+            font-size: 14px;
+        }
+
+        .footer p {
+            margin-bottom: 5px;
+        }
+
+        .motivation {
+            background: linear-gradient(135deg, var(--gold) 0%, var(--light-gold) 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            text-align: center;
+            color: var(--dark-red);
+            font-style: italic;
+            font-size: 16px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 20px;
+            }
+            
+            .header p {
+                font-size: 12px;
+            }
+            
+            .crest {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .crest-text {
+                font-size: 10px;
+            }
+            
+            .crest-year {
+                font-size: 8px;
+            }
+            
+            .countdown-number {
+                font-size: 28px;
+            }
+            
+            .countdown-label {
+                font-size: 10px;
+            }
+            
+            .nav ul {
+                gap: 10px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .nav a {
+                font-size: 12px;
+                padding: 6px 10px;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+            
+            .card {
+                padding: 15px;
+            }
+            
+            .card-title {
+                font-size: 16px;
+            }
+            
+            .subject-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .subject-card {
+                padding: 15px;
+            }
+            
+            .exam-info {
+                font-size: 12px;
+            }
+            
+            .exam-info th, .exam-info td {
+                padding: 6px;
+            }
+            
+            .knowledge-item {
+                font-size: 13px;
+            }
+            
+            .motivation {
+                font-size: 14px;
+                padding: 15px;
+            }
+            
+            .progress-controls {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .btn {
+                padding: 8px 16px;
+                font-size: 14px;
+            }
+            
+            textarea {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 18px;
+            }
+            
+            .countdown-item {
+                min-width: 60px;
+            }
+            
+            .countdown-number {
+                font-size: 24px;
+            }
+            
+            .nav ul {
+                gap: 8px;
+            }
+            
+            .nav a {
+                font-size: 11px;
+                padding: 5px 8px;
+            }
+            
+            .card {
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="crest-container">
+            <div class="crest">
+                <div class="crest-inner">
+                    <span class="crest-text">安徽大学</span>
+                    <span class="crest-year">1928</span>
+                </div>
+            </div>
+        </div>
+        <h1>集成电路工程考研监督系统</h1>
+        <p>2027年硕士研究生入学考试 | 专科同等学力报考</p>
+    </div>
+
+    <div class="nav">
+        <ul>
+            <li><a href="#" class="nav-link active" data-section="home">首页</a></li>
+            <li><a href="#" class="nav-link" data-section="exam-info">考试信息</a></li>
+            <li><a href="#" class="nav-link" data-section="progress">学习进度</a></li>
+            <li><a href="#" class="nav-link" data-section="study-plan">学习计划</a></li>
+            <li><a href="#" class="nav-link" data-section="journal">学习日志</a></li>
+        </ul>
+    </div>
+
+    <div class="container">
+        <div id="home" class="section active">
+            <div class="countdown-section">
+                <div class="countdown-title">距离2027年考研还有</div>
+                <div class="countdown">
+                    <div class="countdown-item">
+                        <div class="countdown-number" id="days">0</div>
+                        <div class="countdown-label">天</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-number" id="hours">0</div>
+                        <div class="countdown-label">小时</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-number" id="minutes">0</div>
+                        <div class="countdown-label">分钟</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-number" id="seconds">0</div>
+                        <div class="countdown-label">秒</div>
+                    </div>
+                </div>
+                <p style="margin-top: 20px; opacity: 0.8;">目标：安徽大学 集成电路工程 (085403)</p>
+            </div>
+
+            <div class="motivation">
+                "专科起点，同等学力，只要坚持，终能抵达梦想彼岸！"
+            </div>
+
+            <div class="card">
+                <div class="card-title">今日概览</div>
+                <div class="subject-grid">
+                    <div class="subject-card" onclick="showSubjectKnowledge('politics')" style="cursor: pointer;">
+                        <div class="subject-header">
+                            <span class="subject-name">政治</span>
+                            <span class="subject-score" id="home-politics">0%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="home-politics-bar" style="width: 0%"></div>
+                        </div>
+                        <p style="font-size: 12px; color: var(--gray);">101思想政治理论</p>
+                        <p style="font-size: 11px; color: var(--gold); margin-top: 5px; text-align: center;">点击查看知识点</p>
+                    </div>
+                    <div class="subject-card" onclick="showSubjectKnowledge('english')" style="cursor: pointer;">
+                        <div class="subject-header">
+                            <span class="subject-name">英语一</span>
+                            <span class="subject-score" id="home-english">0%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="home-english-bar" style="width: 0%"></div>
+                        </div>
+                        <p style="font-size: 12px; color: var(--gray);">201英语（一）</p>
+                        <p style="font-size: 11px; color: var(--gold); margin-top: 5px; text-align: center;">点击查看知识点</p>
+                    </div>
+                    <div class="subject-card" onclick="showSubjectKnowledge('math')" style="cursor: pointer;">
+                        <div class="subject-header">
+                            <span class="subject-name">数学一</span>
+                            <span class="subject-score" id="home-math">0%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="home-math-bar" style="width: 0%"></div>
+                        </div>
+                        <p style="font-size: 12px; color: var(--gray);">301数学（一）</p>
+                        <p style="font-size: 11px; color: var(--gold); margin-top: 5px; text-align: center;">点击查看知识点</p>
+                    </div>
+                    <div class="subject-card" onclick="showSubjectKnowledge('professional')" style="cursor: pointer;">
+                        <div class="subject-header">
+                            <span class="subject-name">专业综合</span>
+                            <span class="subject-score" id="home-professional">0%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="home-professional-bar" style="width: 0%"></div>
+                        </div>
+                        <p style="font-size: 12px; color: var(--gray);">841专业综合一</p>
+                        <p style="font-size: 11px; color: var(--gold); margin-top: 5px; text-align: center;">点击查看知识点</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card card-gold" id="knowledge-panel" style="display: none;">
+                <div class="card-title" style="display: flex; justify-content: space-between; align-items: center;">
+                    <span id="knowledge-title">知识点</span>
+                    <button class="btn btn-gold btn-sm" onclick="hideKnowledgePanel()" style="padding: 4px 10px;">关闭</button>
+                </div>
+                <div id="knowledge-content"></div>
+            </div>
+
+            <div class="card card-gold">
+                <div class="card-title">今日学习计划</div>
+                <div id="home-plan-list"></div>
+            </div>
+        </div>
+
+        <div id="exam-info" class="section">
+            <div class="card">
+                <div class="card-title">招生信息</div>
+                <table class="exam-info">
+                    <tr>
+                        <th>学科门类</th>
+                        <td>0854 电子信息</td>
+                    </tr>
+                    <tr>
+                        <th>一级学科</th>
+                        <td>085403 集成电路工程</td>
+                    </tr>
+                    <tr>
+                        <th>研究方向</th>
+                        <td>00 不区分研究方向</td>
+                    </tr>
+                    <tr>
+                        <th>暂定招生人数</th>
+                        <td>109人</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="card">
+                <div class="card-title">初试科目</div>
+                <table class="exam-info">
+                    <tr>
+                        <th>科目代码</th>
+                        <th>科目名称</th>
+                    </tr>
+                    <tr>
+                        <td>①101</td>
+                        <td>思想政治理论</td>
+                    </tr>
+                    <tr>
+                        <td>②201</td>
+                        <td>英语（一）</td>
+                    </tr>
+                    <tr>
+                        <td>③301</td>
+                        <td>数学（一）</td>
+                    </tr>
+                    <tr>
+                        <td>④841</td>
+                        <td>专业综合一（信号与系统、数字电路与逻辑设计）</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="card">
+                <div class="card-title">复试科目</div>
+                <table class="exam-info">
+                    <tr>
+                        <th>科目代码</th>
+                        <th>科目名称</th>
+                    </tr>
+                    <tr>
+                        <td>F52</td>
+                        <td>专业基础综合四（集成电路原理、半导体物理与器件）</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="card card-gold">
+                <div class="card-title">同等学力加试科目</div>
+                <table class="exam-info">
+                    <tr>
+                        <th>序号</th>
+                        <th>科目名称</th>
+                    </tr>
+                    <tr>
+                        <td>①</td>
+                        <td>C语言</td>
+                    </tr>
+                    <tr>
+                        <td>②</td>
+                        <td>复变函数</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="card">
+                <div class="card-title">841专业综合一考试内容</div>
+                <h4 style="color: var(--dark-red); margin: 15px 0 10px;">信号与系统（50%）</h4>
+                <ul style="margin-left: 25px; margin-bottom: 20px;">
+                    <li>信号与系统基本概念</li>
+                    <li>信号分解与运算</li>
+                    <li>连续时间系统微分方程建立与求解</li>
+                    <li>卷积意义及性质</li>
+                    <li>傅里叶级数</li>
+                    <li>傅里叶变换和拉普拉斯变换的性质及其在系统分析中的应用</li>
+                    <li>信号流图与状态变量分析法</li>
+                </ul>
+                <h4 style="color: var(--dark-red); margin: 15px 0 10px;">数字电路与逻辑设计（50%）</h4>
+                <ul style="margin-left: 25px;">
+                    <li>基本概念</li>
+                    <li>数制与码制</li>
+                    <li>逻辑函数及其化简</li>
+                    <li>组合逻辑电路</li>
+                    <li>集成逻辑门电路</li>
+                    <li>集成触发器</li>
+                    <li>时序逻辑电路</li>
+                    <li>半导体存储器</li>
+                    <li>脉冲波形的产生与整形</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="card-title">F52专业基础综合四考试内容</div>
+                <h4 style="color: var(--dark-red); margin: 15px 0 10px;">集成电路原理</h4>
+                <ul style="margin-left: 25px; margin-bottom: 20px;">
+                    <li>MOS管基本原理</li>
+                    <li>静态CMOS电路</li>
+                    <li>动态CMOS电路</li>
+                    <li>CMOS时序电路</li>
+                    <li>输入、输出缓冲器和ESD保护电路</li>
+                    <li>MOS存储器的分类和单元结构</li>
+                    <li>集成电路的设计流程</li>
+                    <li>集成电路版图的设计</li>
+                </ul>
+                <h4 style="color: var(--dark-red); margin: 15px 0 10px;">半导体物理与器件</h4>
+                <ul style="margin-left: 25px;">
+                    <li>半导体中的电子状态</li>
+                    <li>半导体中杂质和缺陷能级</li>
+                    <li>半导体中载流子的统计分布</li>
+                    <li>半导体的导电性</li>
+                    <li>非平衡载流子</li>
+                    <li>pn结</li>
+                    <li>金属和半导体的接触</li>
+                    <li>半导体表面与MIS结构</li>
+                    <li>半导体异质结及其能带图</li>
+                    <li>双极型晶体管</li>
+                    <li>化合物半导体场效应晶体管</li>
+                    <li>MOS器件</li>
+                </ul>
+            </div>
+
+            <div class="card card-gold">
+                <div class="card-title">历年招生情况与分数线</div>
+                <table class="exam-info">
+                    <tr>
+                        <th>年份</th>
+                        <th>复试分数线</th>
+                        <th>录取最低分</th>
+                        <th>录取最高分</th>
+                        <th>实际录取人数</th>
+                        <th>计划招生人数</th>
+                    </tr>
+                    <tr>
+                        <td>2023年</td>
+                        <td>273分</td>
+                        <td>273分</td>
+                        <td>340+分</td>
+                        <td>85人</td>
+                        <td>85人</td>
+                    </tr>
+                    <tr>
+                        <td>2024年</td>
+                        <td>273分</td>
+                        <td>273分</td>
+                        <td>345+分</td>
+                        <td>80人</td>
+                        <td>80人</td>
+                    </tr>
+                    <tr>
+                        <td>2025年</td>
+                        <td>260分</td>
+                        <td>260分</td>
+                        <td>350+分</td>
+                        <td>96人</td>
+                        <td>96人</td>
+                    </tr>
+                    <tr>
+                        <td>2026年</td>
+                        <td>260分</td>
+                        <td>261分</td>
+                        <td>待公布</td>
+                        <td>待公布</td>
+                        <td>109人</td>
+                    </tr>
+                </table>
+                <p style="margin-top: 15px; font-size: 14px; color: var(--gray);">
+                    <strong>备注：</strong>2026年录取人数以安徽大学研究生院官方公布为准。
+                    2026年招生扩增至109人，是近年最大规模，对考生属利好信号。
+                    实际录取考生初试成绩多集中在280-340分区间，建议目标分数定在300分以上以确保竞争力。
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">学科实力与就业前景</div>
+                <ul style="margin-left: 25px;">
+                    <li><strong>学科评估：</strong>安徽大学"电子科学与技术"一级学科在教育部第五轮学科评估中获评B+等级，进入全国前20%</li>
+                    <li><strong>双一流建设：</strong>"材料科学与工程"为国家"双一流"建设学科，支撑集成电路先进材料方向</li>
+                    <li><strong>科研平台：</strong>拥有国家级科研平台"集成电路先进材料与技术研究设施"</li>
+                    <li><strong>校企合作：</strong>与长鑫存储、晶合集成等龙头企业深度合作，就业前景广阔</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="progress" class="section">
+            <div class="subject-grid">
+                <div class="subject-card">
+                    <div class="subject-header">
+                        <span class="subject-name">政治</span>
+                        <span class="subject-score" id="progress-politics">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-politics-bar" style="width: 0%"></div>
+                    </div>
+                    <div class="progress-controls">
+                        <button class="btn btn-primary btn-sm" onclick="updateProgress('politics', 5)">+5%</button>
+                        <button class="btn btn-primary btn-sm" onclick="updateProgress('politics', 10)">+10%</button>
+                        <button class="btn btn-gold btn-sm" onclick="resetProgress('politics')">重置</button>
+                    </div>
+                    <p style="font-size: 12px; color: var(--gray); margin-top: 10px;">101思想政治理论</p>
+                </div>
+
+                <div class="subject-card">
+                    <div class="subject-header">
+                        <span class="subject-name">英语一</span>
+                        <span class="subject-score" id="progress-english">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-english-bar" style="width: 0%"></div>
+                    </div>
+                    <div class="progress-controls">
+                        <button class="btn btn-primary btn-sm" onclick="updateProgress('english', 5)">+5%</button>
+                        <button class="btn btn-primary btn-sm" onclick="updateProgress('english', 10)">+10%</button>
+                        <button class="btn btn-gold btn-sm" onclick="resetProgress('english')">重置</button>
+                    </div>
+                    <p style="font-size: 12px; color: var(--gray); margin-top: 10px;">201英语（一）</p>
+                </div>
+
+                <div class="subject-card">
+                    <div class="subject-header">
+                        <span class="subject-name">数学一</span>
+                        <span class="subject-score" id="progress-math">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-math-bar" style="width: 0%"></div>
+                    </div>
+                    <div class="progress-controls">
+                        <button class="btn btn-primary btn-sm" onclick="updateProgress('math', 5)">+5%</button>
+                        <button class="btn btn-primary btn-sm" onclick="updateProgress('math', 10)">+10%</button>
+                        <button class="btn btn-gold btn-sm" onclick="resetProgress('math')">重置</button>
+                    </div>
+                    <p style="font-size: 12px; color: var(--gray); margin-top: 10px;">301数学（一）</p>
+                </div>
+
+                <div class="subject-card">
+                    <div class="subject-header">
+                        <span class="subject-name">专业综合</span>
+                        <span class="subject-score" id="progress-professional">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-professional-bar" style="width: 0%"></div>
+                    </div>
+                    <div class="progress-controls">
+                        <button class="btn btn-primary btn-sm" onclick="updateProgress('professional', 5)">+5%</button>
+                        <button class="btn btn-primary btn-sm" onclick="updateProgress('professional', 10)">+10%</button>
+                        <button class="btn btn-gold btn-sm" onclick="resetProgress('professional')">重置</button>
+                    </div>
+                    <p style="font-size: 12px; color: var(--gray); margin-top: 10px;">841专业综合一</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">加试科目进度</div>
+                <div class="subject-grid">
+                    <div class="subject-card">
+                        <div class="subject-header">
+                            <span class="subject-name">C语言</span>
+                            <span class="subject-score" id="progress-c">0%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progress-c-bar" style="width: 0%"></div>
+                        </div>
+                        <div class="progress-controls">
+                            <button class="btn btn-primary btn-sm" onclick="updateProgress('c', 5)">+5%</button>
+                            <button class="btn btn-primary btn-sm" onclick="updateProgress('c', 10)">+10%</button>
+                            <button class="btn btn-gold btn-sm" onclick="resetProgress('c')">重置</button>
+                        </div>
+                    </div>
+                    <div class="subject-card">
+                        <div class="subject-header">
+                            <span class="subject-name">复变函数</span>
+                            <span class="subject-score" id="progress-complex">0%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progress-complex-bar" style="width: 0%"></div>
+                        </div>
+                        <div class="progress-controls">
+                            <button class="btn btn-primary btn-sm" onclick="updateProgress('complex', 5)">+5%</button>
+                            <button class="btn btn-primary btn-sm" onclick="updateProgress('complex', 10)">+10%</button>
+                            <button class="btn btn-gold btn-sm" onclick="resetProgress('complex')">重置</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="study-plan" class="section">
+            <div class="card">
+                <div class="card-title">每日学习计划</div>
+                <div class="study-plan" id="daily-plan">
+                    <div class="plan-header">
+                        <span class="plan-date" id="plan-date">2024年1月1日</span>
+                        <button class="btn btn-primary" onclick="generateDailyPlan()">生成今日计划</button>
+                    </div>
+                    <div id="plan-items"></div>
+                </div>
+            </div>
+
+            <div class="card card-gold">
+                <div class="card-title">学习目标</div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                    <div style="text-align: center; padding: 15px; background: var(--light-gold); border-radius: 8px;">
+                        <div style="font-size: 32px; font-weight: bold; color: var(--dark-red);" id="goal-days">0</div>
+                        <div style="font-size: 14px; color: var(--gray);">已学习天数</div>
+                    </div>
+                    <div style="text-align: center; padding: 15px; background: var(--light-gold); border-radius: 8px;">
+                        <div style="font-size: 32px; font-weight: bold; color: var(--dark-red);" id="goal-hours">0</div>
+                        <div style="font-size: 14px; color: var(--gray);">累计学习小时</div>
+                    </div>
+                    <div style="text-align: center; padding: 15px; background: var(--light-gold); border-radius: 8px;">
+                        <div style="font-size: 32px; font-weight: bold; color: var(--dark-red);" id="goal-avg">0</div>
+                        <div style="font-size: 14px; color: var(--gray);">日均学习小时</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div id="journal" class="section">
+            <div class="card">
+                <div class="card-title">学习日志</div>
+                <div class="log-form">
+                    <textarea id="log-content" placeholder="记录今天的学习内容、收获和心得..."></textarea>
+                    <button class="btn btn-primary" onclick="addLog()">保存日志</button>
+                </div>
+                <div class="log-list" id="log-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>安徽大学集成电路工程考研监督系统</p>
+        <p>专科起点，同等学力，追逐梦想 | 2027年硕士研究生入学考试</p>
+    </div>
+
+    <script>
+        const EXAM_DATE = new Date('2027-12-25T08:30:00').getTime();
+
+        const subjects = {
+            politics: { name: '政治', code: '101' },
+            english: { name: '英语一', code: '201' },
+            math: { name: '数学一', code: '301' },
+            professional: { name: '专业综合', code: '841' },
+            c: { name: 'C语言', code: '加试' },
+            complex: { name: '复变函数', code: '加试' }
+        };
+
+        const knowledgePoints = {
+            'politics-m': [
+                '唯物论：物质与意识、实践与认识',
+                '辩证法：联系与发展、三大规律',
+                '认识论：认识的本质与过程',
+                '唯物史观：社会存在与社会意识',
+                '商品与货币：价值规律',
+                '剩余价值理论',
+                '资本积累与资本主义基本矛盾',
+                '社会主义基本特征'
+            ],
+            'politics-mz': [
+                '毛泽东思想形成与发展',
+                '新民主主义革命理论',
+                '社会主义改造理论',
+                '邓小平理论',
+                '三个代表重要思想',
+                '科学发展观',
+                '新时代中国特色社会主义',
+                '中国式现代化',
+                '二十大精神与政策理论'
+            ],
+            'politics-h': [
+                '近代史开端：鸦片战争',
+                '太平天国运动',
+                '洋务运动',
+                '维新变法',
+                '辛亥革命',
+                '新文化运动',
+                '中国共产党成立',
+                '新民主主义革命时期',
+                '新中国建设与改革开放'
+            ],
+            'politics-s': [
+                '理想信念',
+                '爱国主义与民族精神',
+                '社会主义核心价值观',
+                '道德修养',
+                '社会公德与职业道德',
+                '法律基础',
+                '宪法与法律体系',
+                '权利与义务'
+            ],
+            'politics-x': [
+                '年度时政热点（国内）',
+                '年度时政热点（国际）',
+                '二十大以来政策',
+                '科技自立自强',
+                '乡村振兴',
+                '高质量发展'
+            ],
+            'english-v': [
+                '考研核心词汇（5500+）',
+                '词根词缀记忆法',
+                '熟词僻义',
+                '固定搭配',
+                '长难句分析',
+                '语法基础（时态、语态、从句）'
+            ],
+            'english-r': [
+                '主旨大意题',
+                '细节理解题',
+                '推理判断题',
+                '词义猜测题',
+                '态度观点题',
+                '段落排序',
+                '快速阅读技巧',
+                '真题精读与翻译'
+            ],
+            'english-c': [
+                '词汇辨析',
+                '逻辑关系',
+                '语法填空',
+                '语境理解',
+                '真题训练'
+            ],
+            'english-n': [
+                '七选五',
+                '排序题',
+                '小标题匹配',
+                '段落信息匹配'
+            ],
+            'english-t': [
+                '长难句拆分',
+                '准确表达',
+                '句式调整',
+                '专业术语翻译',
+                '真题翻译练习'
+            ],
+            'english-w': [
+                '小作文：书信、通知',
+                '大作文：图表、图画',
+                '模板句型',
+                '素材积累',
+                '书写规范'
+            ],
+            'math-h': [
+                '极限与连续',
+                '一元函数微分学',
+                '一元函数积分学',
+                '多元函数微分学',
+                '多元函数积分学',
+                '常微分方程',
+                '无穷级数',
+                '向量代数与空间解析几何',
+                '三重积分与曲线曲面积分'
+            ],
+            'math-l': [
+                '行列式',
+                '矩阵',
+                '向量',
+                '线性方程组',
+                '特征值与特征向量',
+                '二次型'
+            ],
+            'math-p': [
+                '随机事件与概率',
+                '随机变量及其分布',
+                '多维随机变量',
+                '数字特征',
+                '大数定律与中心极限定理',
+                '数理统计基础',
+                '参数估计',
+                '假设检验'
+            ],
+            signal: [
+                '信号与系统基本概念',
+                '信号分解与运算',
+                '连续时间系统微分方程建立与求解',
+                '卷积意义及性质',
+                '傅里叶级数',
+                '傅里叶变换的性质',
+                '拉普拉斯变换的性质',
+                '信号流图与状态变量分析法'
+            ],
+            digital: [
+                '基本概念',
+                '数制与码制',
+                '逻辑函数及其化简',
+                '组合逻辑电路',
+                '集成逻辑门电路',
+                '集成触发器',
+                '时序逻辑电路',
+                '半导体存储器',
+                '脉冲波形的产生与整形'
+            ],
+            ic: [
+                'MOS管基本原理',
+                '静态CMOS电路',
+                '动态CMOS电路',
+                'CMOS时序电路',
+                '输入、输出缓冲器',
+                'ESD保护电路',
+                'MOS存储器的分类和单元结构',
+                '集成电路的设计流程',
+                '集成电路版图的设计'
+            ],
+            semiconductor: [
+                '半导体中的电子状态',
+                '半导体中杂质和缺陷能级',
+                '半导体中载流子的统计分布',
+                '半导体的导电性',
+                '非平衡载流子',
+                'pn结',
+                '金属和半导体的接触',
+                '半导体表面与MIS结构',
+                '半导体异质结及其能带图',
+                '双极型晶体管',
+                '化合物半导体场效应晶体管',
+                'MOS器件'
+            ]
+        };
+
+        function loadProgress() {
+            const saved = localStorage.getItem('gradExamProgress');
+            return saved ? JSON.parse(saved) : {};
+        }
+
+        function saveProgress(progress) {
+            localStorage.setItem('gradExamProgress', JSON.stringify(progress));
+        }
+
+        function updateProgress(subject, increment) {
+            const progress = loadProgress();
+            progress[subject] = Math.min(100, (progress[subject] || 0) + increment);
+            saveProgress(progress);
+            renderProgress();
+        }
+
+        function resetProgress(subject) {
+            const progress = loadProgress();
+            progress[subject] = 0;
+            saveProgress(progress);
+            renderProgress();
+        }
+
+        function renderProgress() {
+            const progress = loadProgress();
+            Object.keys(subjects).forEach(subject => {
+                const value = progress[subject] || 0;
+                const elements = document.querySelectorAll(`[id*="${subject}"]`);
+                elements.forEach(el => {
+                    if (el.classList.contains('progress-fill')) {
+                        el.style.width = value + '%';
+                        el.textContent = value + '%';
+                    } else if (el.classList.contains('subject-score')) {
+                        el.textContent = value + '%';
+                    }
+                });
+            });
+        }
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = EXAM_DATE - now;
+
+            if (distance < 0) {
+                document.getElementById('days').textContent = '0';
+                document.getElementById('hours').textContent = '0';
+                document.getElementById('minutes').textContent = '0';
+                document.getElementById('seconds').textContent = '0';
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('days').textContent = days.toString().padStart(3, '0');
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+        }
+
+        function generateDailyPlan() {
+            const progress = loadProgress();
+            const planItems = [];
+            
+            const tasks = [
+                { subject: 'politics', name: '政治', tasks: ['马原核心考点复习', '毛中特章节学习', '时政热点关注'] },
+                { subject: 'english', name: '英语一', tasks: ['阅读理解练习', '完形填空专项', '作文模板背诵', '单词记忆'] },
+                { subject: 'math', name: '数学一', tasks: ['高等数学复习', '线性代数练习', '概率统计专项'] },
+                { subject: 'professional', name: '专业综合', tasks: ['信号与系统复习', '数字电路练习', '真题分析'] }
+            ];
+
+            tasks.forEach(task => {
+                const currentProgress = progress[task.subject] || 0;
+                const taskIndex = Math.min(Math.floor(currentProgress / 25), task.tasks.length - 1);
+                planItems.push({
+                    subject: task.name,
+                    task: task.tasks[taskIndex],
+                    completed: false
+                });
+            });
+
+            localStorage.setItem('dailyPlan', JSON.stringify({
+                date: new Date().toLocaleDateString(),
+                items: planItems
+            }));
+
+            renderDailyPlan();
+        }
+
+        function renderDailyPlan() {
+            const saved = localStorage.getItem('dailyPlan');
+            const today = new Date().toLocaleDateString();
+            let plan = saved ? JSON.parse(saved) : null;
+
+            if (!plan || plan.date !== today) {
+                plan = { date: today, items: [] };
+            }
+
+            document.getElementById('plan-date').textContent = today;
+            
+            const container = document.getElementById('plan-items');
+            container.innerHTML = '';
+
+            if (plan.items.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: var(--gray);">点击"生成今日计划"按钮生成学习计划</p>';
+                return;
+            }
+
+            plan.items.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className = 'plan-item';
+                div.innerHTML = `
+                    <input type="checkbox" class="plan-checkbox" ${item.completed ? 'checked' : ''} 
+                           onchange="togglePlanItem(${index})">
+                    <span class="plan-text ${item.completed ? 'completed' : ''}">${item.subject}: ${item.task}</span>
+                `;
+                container.appendChild(div);
+            });
+
+            const homeContainer = document.getElementById('home-plan-list');
+            homeContainer.innerHTML = '';
+            plan.items.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className = 'plan-item';
+                div.innerHTML = `
+                    <input type="checkbox" class="plan-checkbox" ${item.completed ? 'checked' : ''} 
+                           onchange="togglePlanItem(${index})">
+                    <span class="plan-text ${item.completed ? 'completed' : ''}">${item.task}</span>
+                `;
+                homeContainer.appendChild(div);
+            });
+        }
+
+        function togglePlanItem(index) {
+            const saved = localStorage.getItem('dailyPlan');
+            if (!saved) return;
+
+            const plan = JSON.parse(saved);
+            plan.items[index].completed = !plan.items[index].completed;
+            localStorage.setItem('dailyPlan', JSON.stringify(plan));
+            renderDailyPlan();
+        }
+
+        function loadKnowledgeStatus() {
+            const saved = localStorage.getItem('knowledgeStatus');
+            return saved ? JSON.parse(saved) : {};
+        }
+
+        function saveKnowledgeStatus(status) {
+            localStorage.setItem('knowledgeStatus', JSON.stringify(status));
+        }
+
+        function toggleKnowledge(category, index) {
+            const status = loadKnowledgeStatus();
+            const key = `${category}-${index}`;
+            status[key] = !status[key];
+            saveKnowledgeStatus(status);
+            renderKnowledge();
+        }
+
+        function renderKnowledge() {
+            const status = loadKnowledgeStatus();
+
+            Object.keys(knowledgePoints).forEach(category => {
+                const list = document.getElementById(`knowledge-${category}`);
+                if (!list) return;
+                list.innerHTML = '';
+                
+                knowledgePoints[category].forEach((point, index) => {
+                    const key = `${category}-${index}`;
+                    const isCompleted = status[key];
+                    
+                    const li = document.createElement('li');
+                    li.className = `knowledge-item ${isCompleted ? 'completed' : ''}`;
+                    li.innerHTML = `
+                        <span>${point}</span>
+                        <input type="checkbox" ${isCompleted ? 'checked' : ''} 
+                               onchange="toggleKnowledge('${category}', ${index})">
+                    `;
+                    list.appendChild(li);
+                });
+            });
+        }
+
+        const subjectInfo = {
+            politics: {
+                title: '思想政治理论（101）',
+                modules: [
+                    { name: '马克思主义基本原理（22%）', categories: ['politics-m'] },
+                    { name: '毛泽东思想与中国特色社会主义理论（22%）', categories: ['politics-mz'] },
+                    { name: '中国近现代史纲要（15%）', categories: ['politics-h'] },
+                    { name: '思想道德修养与法律基础（15%）', categories: ['politics-s'] },
+                    { name: '形势与政策（13%）', categories: ['politics-x'] }
+                ]
+            },
+            english: {
+                title: '英语（一）（201）',
+                modules: [
+                    { name: '词汇与语法', categories: ['english-v'] },
+                    { name: '阅读理解（40分）', categories: ['english-r'] },
+                    { name: '完形填空（10分）', categories: ['english-c'] },
+                    { name: '新题型（10分）', categories: ['english-n'] },
+                    { name: '翻译（10分）', categories: ['english-t'] },
+                    { name: '写作（30分）', categories: ['english-w'] }
+                ]
+            },
+            math: {
+                title: '数学（一）（301）',
+                modules: [
+                    { name: '高等数学（56%）', categories: ['math-h'] },
+                    { name: '线性代数（22%）', categories: ['math-l'] },
+                    { name: '概率论与数理统计（22%）', categories: ['math-p'] }
+                ]
+            },
+            professional: {
+                title: '专业综合一（841）',
+                modules: [
+                    { name: '信号与系统（50%）', categories: ['signal'] },
+                    { name: '数字电路与逻辑设计（50%）', categories: ['digital'] }
+                ]
+            }
+        };
+
+        function showSubjectKnowledge(subject) {
+            const info = subjectInfo[subject];
+            if (!info) return;
+
+            document.getElementById('knowledge-title').textContent = info.title;
+            const content = document.getElementById('knowledge-content');
+            content.innerHTML = '';
+
+            const status = loadKnowledgeStatus();
+
+            info.modules.forEach((module, mIndex) => {
+                const moduleDiv = document.createElement('div');
+                moduleDiv.className = 'card';
+                moduleDiv.style.marginBottom = '15px';
+                moduleDiv.style.borderTopWidth = '2px';
+                
+                const h4 = document.createElement('h4');
+                h4.style.color = 'var(--dark-red)';
+                h4.style.marginBottom = '10px';
+                h4.textContent = `${mIndex + 1}、${module.name}`;
+                moduleDiv.appendChild(h4);
+
+                const ul = document.createElement('ul');
+                ul.className = 'knowledge-list';
+
+                module.categories.forEach(category => {
+                    const points = knowledgePoints[category] || [];
+                    points.forEach((point, index) => {
+                        const key = `${category}-${index}`;
+                        const isCompleted = status[key];
+                        const li = document.createElement('li');
+                        li.className = `knowledge-item ${isCompleted ? 'completed' : ''}`;
+                        li.innerHTML = `
+                            <span>${point}</span>
+                            <input type="checkbox" ${isCompleted ? 'checked' : ''} 
+                                   onchange="toggleKnowledge('${category}', ${index})">
+                        `;
+                        ul.appendChild(li);
+                    });
+                });
+
+                moduleDiv.appendChild(ul);
+                content.appendChild(moduleDiv);
+            });
+
+            document.getElementById('knowledge-panel').style.display = 'block';
+        }
+
+        function hideKnowledgePanel() {
+            document.getElementById('knowledge-panel').style.display = 'none';
+        }
+
+        function addLog() {
+            const content = document.getElementById('log-content').value.trim();
+            if (!content) return;
+
+            const logs = loadLogs();
+            logs.unshift({
+                id: Date.now(),
+                date: new Date().toLocaleString(),
+                content: content
+            });
+            saveLogs(logs);
+            document.getElementById('log-content').value = '';
+            renderLogs();
+        }
+
+        function deleteLog(id) {
+            const logs = loadLogs();
+            const filtered = logs.filter(log => log.id !== id);
+            saveLogs(filtered);
+            renderLogs();
+        }
+
+        function loadLogs() {
+            const saved = localStorage.getItem('studyLogs');
+            return saved ? JSON.parse(saved) : [];
+        }
+
+        function saveLogs(logs) {
+            localStorage.setItem('studyLogs', JSON.stringify(logs));
+        }
+
+        function renderLogs() {
+            const logs = loadLogs();
+            const container = document.getElementById('log-list');
+            
+            if (logs.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: var(--gray);">暂无学习日志，开始记录你的学习历程吧！</p>';
+                return;
+            }
+
+            container.innerHTML = '';
+            logs.forEach(log => {
+                const div = document.createElement('div');
+                div.className = 'log-item';
+                div.innerHTML = `
+                    <div class="log-date">${log.date}</div>
+                    <div class="log-content">${log.content}</div>
+                    <div class="log-actions">
+                        <button class="btn btn-gold btn-sm" onclick="deleteLog(${log.id})">删除</button>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function renderStats() {
+            const logs = loadLogs();
+            const planHistory = localStorage.getItem('planHistory');
+            const history = planHistory ? JSON.parse(planHistory) : [];
+            
+            const daysStudied = history.length;
+            const hoursStudied = daysStudied * 8;
+            
+            document.getElementById('goal-days').textContent = daysStudied;
+            document.getElementById('goal-hours').textContent = hoursStudied;
+            document.getElementById('goal-avg').textContent = daysStudied > 0 ? (hoursStudied / daysStudied).toFixed(1) : '0';
+        }
+
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+                
+                link.classList.add('active');
+                const sectionId = link.getAttribute('data-section');
+                document.getElementById(sectionId).classList.add('active');
+            });
+        });
+
+        function init() {
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+            
+            renderProgress();
+            renderDailyPlan();
+            renderKnowledge();
+            renderLogs();
+            renderStats();
+        }
+
+        init();
+    </script>
+</body>
+</html>
